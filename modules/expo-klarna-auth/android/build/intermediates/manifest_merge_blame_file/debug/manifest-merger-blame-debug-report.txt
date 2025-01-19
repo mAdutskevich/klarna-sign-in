@@ -1,0 +1,38 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    xmlns:tools="http://schemas.android.com/tools"
+4    package="expo.modules.klarnaauth" >
+5
+6    <uses-sdk android:minSdkVersion="23" />
+7
+8    <application>
+8-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:3:3-12:17
+9        <activity
+9-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:4:5-11:16
+10            android:name="com.klarna.mobile.sdk.activity.KlarnaRedirectReceiverActivity"
+10-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:4:15-91
+11            android:exported="true"
+11-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:4:92-115
+12            tools:node="replace" >
+12-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:4:116-136
+13            <intent-filter>
+13-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:5:7-10:23
+14                <action android:name="android.intent.action.VIEW" />
+14-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:6:9-60
+14-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:6:17-58
+15
+16                <category android:name="android.intent.category.DEFAULT" />
+16-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:7:9-67
+16-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:7:19-65
+17                <category android:name="android.intent.category.BROWSABLE" />
+17-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:8:9-69
+17-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:8:19-67
+18
+19                <data android:scheme="myapp" />
+19-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:9:9-39
+19-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:9:15-37
+20            </intent-filter>
+21        </activity>
+22    </application>
+23
+24</manifest>
