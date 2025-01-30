@@ -13,11 +13,38 @@ import com.klarna.mobile.sdk.api.signin.KlarnaSignInEvent
 import com.klarna.mobile.sdk.api.component.KlarnaComponent
 import com.klarna.mobile.sdk.api.signin.model.KlarnaSignInToken
 
+var authEvent = "AUTH_EVENT"
+var signInEvent = "SIGNIN_EVENT"
+var errorEvent = "ERROR_EVENT"
+var otherEvent = "OTHER_EVENT"
+var successStatus = "SUCCESS"
+var errorStatus = "ERROR"
+
 class ExpoKlarnaAuthModule : Module() {
+    var klarnaSignInSDK: KlarnaSignInSDK? = null
+
+    val eventHandler = object : KlarnaEventHandler {
+        override fun onEvent(klarnaComponent: KlarnaComponent, event: KlarnaProductEvent) {
+            when (event.action) {
+                KlarnaSignInEvent.SIGN_IN_TOKEN -> sendTokenEvent(event)
+                KlarnaSignInEvent.USER_CANCELLED -> sendErrorEvent(KlarnaSignInEvent.USER_CANCELLED)
+                KlarnaSignInEvent.USER_AUTH -> sendAuthEvent(event.action)
+
+                else -> {
+                    sendOtherEvent(event.action)
+                }
+            }
+        }
+
+        override fun onError(klarnaComponent: KlarnaComponent, error: KlarnaMobileSDKError) {
+            sendErrorEvent(error.name)
+        }
+    }
+
     override fun definition() = ModuleDefinition {
         Name("ExpoKlarnaAuth")
 
-        Events("onChange")
+        Events(signInEvent, authEvent, errorEvent, otherEvent)
 
         Function("klarnaSignIn") {
                 returnURL: String,
@@ -59,54 +86,54 @@ class ExpoKlarnaAuthModule : Module() {
             return
         }
 
-        val eventHandler = object : KlarnaEventHandler {
-            override fun onEvent(klarnaComponent: KlarnaComponent, event: KlarnaProductEvent) {
-                when (event.action) {
-                    KlarnaSignInEvent.USER_CANCELLED -> sendErrorEvent(KlarnaSignInEvent.USER_CANCELLED)
-                    KlarnaSignInEvent.SIGN_IN_TOKEN -> sendTokenEvent(event)
-                    else -> {
-                        sendSuccessEvent(event.action)
-                    }
-                }
-            }
-
-            override fun onError(klarnaComponent: KlarnaComponent, error: KlarnaMobileSDKError) {
-                sendErrorEvent(error.name)
-            }
-        }
-
         activity.runOnUiThread {
             try {
-                val klarnaSignInSDK = KlarnaSignInSDK(activity, returnURL, eventHandler, getKlarnaEnvironment(klarnaEnv), getKlarnaRegion(region))
+                klarnaSignInSDK = KlarnaSignInSDK(
+                    activity,
+                    returnURL,
+                    eventHandler,
+                    getKlarnaEnvironment(klarnaEnv),
+                    getKlarnaRegion(region),
+                )
 
-                klarnaSignInSDK.signIn(clientId, scope, market, locale)
+                klarnaSignInSDK?.signIn(clientId, scope, market, locale)
             } catch (e: Exception) {
                 sendErrorEvent("UNEXPECTED_ERROR")
             }
         }
     }
 
-    private fun sendErrorEvent(message: String) {
-        sendEvent("onChange", mapOf("status" to "ERROR", "message" to message))
+    fun sendErrorEvent(message: String) {
+        sendEvent(errorEvent, mapOf("status" to errorStatus, "message" to message))
     }
 
-    private fun sendSuccessEvent(message: String) {
-        sendEvent("onChange", mapOf("status" to "SUCCESS", "message" to message))
+    fun sendOtherEvent(message: String) {
+        sendEvent(otherEvent, mapOf("status" to successStatus, "message" to message))
     }
 
-    private fun sendTokenEvent(event: KlarnaProductEvent) {
-        val token = event.params[KlarnaSignInEvent.ParamKey.KlarnaSignInToken] as? KlarnaSignInToken
+    fun sendAuthEvent(message: String) {
+        sendEvent(authEvent, mapOf("status" to successStatus, "message" to message))
+    }
 
-        sendEvent("onChange", mapOf(
-            "status" to "SUCCESS",
-            "message" to event.action,
-            "accessToken" to token?.accessToken,
-            "idToken" to token?.idToken,
-            "refreshToken" to token?.refreshToken,
-            "scope" to token?.scope,
-            "tokenType" to token?.tokenType,
-            "expiresIn" to token?.expiresIn
-        ))
+    fun sendTokenEvent(event: KlarnaProductEvent) {
+        try {
+            val token = event.params[KlarnaSignInEvent.ParamKey.KlarnaSignInToken] as? KlarnaSignInToken
+
+            sendEvent(
+                signInEvent, mapOf(
+                    "status" to successStatus,
+                    "message" to event.action,
+                    "accessToken" to token?.accessToken,
+                    "idToken" to token?.idToken,
+                    "refreshToken" to token?.refreshToken,
+                    "scope" to token?.scope,
+                    "tokenType" to token?.tokenType,
+                    "expiresIn" to token?.expiresIn
+                )
+            )
+        } catch (e: Exception) {
+            sendErrorEvent("UNEXPECTED_ERROR")
+        }
     }
 
     private fun getKlarnaEnvironment(env: String): KlarnaEnvironment {

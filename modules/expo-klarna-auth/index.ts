@@ -1,20 +1,17 @@
-import {
-  NativeModulesProxy,
-  EventEmitter,
-  Subscription
-} from 'expo-modules-core';
+import { EventEmitter, type Subscription } from "expo-modules-core";
 
 // Import the native module. On web, it will be resolved to ExpoKlarnaAuth.web.ts
 // and on native platforms to ExpoKlarnaAuth.ts
-import ExpoKlarnaAuthModule from './src/ExpoKlarnaAuthModule';
-import ExpoKlarnaAuthView from './src/ExpoKlarnaAuthView';
+import ExpoKlarnaAuthModule from "./src/ExpoKlarnaAuthModule";
+import ExpoKlarnaAuthView from "./src/ExpoKlarnaAuthView";
 import {
   type TKlarnaSignInEventListenerPayload,
   EKlarnaEnv,
   EKlarnaRegion,
   EKlarnaLocale,
-  EKlarnaMarket
-} from './src/ExpoKlarnaAuth.types';
+  EKlarnaMarket,
+  EEventType,
+} from "./src/ExpoKlarnaAuth.types";
 
 export const klarnaSignIn = (
   returnURL: string,
@@ -36,24 +33,50 @@ export const klarnaSignIn = (
   );
 };
 
-const emitter = new EventEmitter(
-  ExpoKlarnaAuthModule ?? NativeModulesProxy.ExpoKlarnaAuth
-);
+const emitter = new EventEmitter(ExpoKlarnaAuthModule);
 
 export function addKlarnaSignInEventListener(
   listener: (event: TKlarnaSignInEventListenerPayload) => void
 ): Subscription {
   return emitter.addListener<TKlarnaSignInEventListenerPayload>(
-    'onChange',
+    EEventType.SignInEvent,
+    listener
+  );
+}
+
+export function addKlarnaErrorEventListener(
+  listener: (event: TKlarnaSignInEventListenerPayload) => void
+): Subscription {
+  return emitter.addListener<TKlarnaSignInEventListenerPayload>(
+    EEventType.ErrorEvent,
+    listener
+  );
+}
+
+export function addKlarnaAuthEventListener(
+  listener: (event: TKlarnaSignInEventListenerPayload) => void
+): Subscription {
+  return emitter.addListener<TKlarnaSignInEventListenerPayload>(
+    EEventType.AuthEvent,
+    listener
+  );
+}
+
+export function addKlarnaOtherEventListener(
+  listener: (event: TKlarnaSignInEventListenerPayload) => void
+): Subscription {
+  return emitter.addListener<TKlarnaSignInEventListenerPayload>(
+    EEventType.SignInEvent,
     listener
   );
 }
 
 export {
-  ExpoKlarnaAuthView,
   type TKlarnaSignInEventListenerPayload,
-  EKlarnaEnv,
+  ExpoKlarnaAuthView,
   EKlarnaRegion,
   EKlarnaLocale,
-  EKlarnaMarket
+  EKlarnaMarket,
+  EKlarnaEnv,
 };
+

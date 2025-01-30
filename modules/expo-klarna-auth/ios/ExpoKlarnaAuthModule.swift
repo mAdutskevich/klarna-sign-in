@@ -1,13 +1,20 @@
 import ExpoModulesCore
 import KlarnaMobileSDK
 
+var authEvent = "AUTH_EVENT"
+var signInEvent = "SIGNIN_EVENT"
+var errorEvent = "ERROR_EVENT"
+var otherEvent = "OTHER_EVENT"
+var successStatus = "SUCCESS"
+var errorStatus = "ERROR"
+
 public class ExpoKlarnaAuthModule: Module {
     var klarnaSignInSDK: KlarnaSignInSDK?
     
     public func definition() -> ModuleDefinition {
         Name("ExpoKlarnaAuth")
         
-        Events("onChange")
+        Events(signInEvent, authEvent, errorEvent, otherEvent)
         
         Function("klarnaSignIn") { (
             returnUrl: String,
@@ -87,8 +94,10 @@ extension ExpoKlarnaAuthModule: KlarnaEventHandler {
             sendTokenEvent(event)
         } else if event.action == .klarnaSignInUserCancelled {
             sendErrorEvent(event.action)
+        } else if event.action == .klarnaSignInAuth {
+            sendAuthEvent(event.action)
         } else {
-            sendSuccessEvent(event.action)
+            sendOtherEvent(event.action)
         }
     }
 
@@ -100,31 +109,38 @@ extension ExpoKlarnaAuthModule: KlarnaEventHandler {
 @available(iOS 13.0, *)
 extension ExpoKlarnaAuthModule {
     public func sendErrorEvent(_ message: String?) {
-        self.sendEvent("onChange", [
-            "status": "ERROR",
+        self.sendEvent(errorEvent, [
+            "status": errorStatus,
             "message": message,
         ])
     }
     
-    public func sendSuccessEvent(_ message: String?) {
-        self.sendEvent("onChange", [
-            "status": "SUCCESS",
+    public func sendOtherEvent(_ message: String?) {
+        self.sendEvent(otherEvent, [
+            "status": successStatus,
+            "message": message,
+        ])
+    }
+    
+    public func sendAuthEvent(_ message: String?) {
+        self.sendEvent(authEvent, [
+            "status": successStatus,
             "message": message,
         ])
     }
     
     public func sendTokenEvent(_ event: KlarnaProductEvent) {
         guard let token = event.params["klarnaToken"] as? KlarnaMobileSDK.KlarnaSignInToken else {
-            self.sendEvent("onChange", [
-                "status": "ERROR",
+            self.sendEvent(errorEvent, [
+                "status": errorStatus,
                 "message": "KLARNA_SIGN_IN_TOKEN_ERROR",
             ])
             
             return
         }
         
-        self.sendEvent("onChange", [
-            "status": "SUCCESS",
+        self.sendEvent(signInEvent, [
+            "status": successStatus,
             "message": event.action,
             "accessToken": token.accessToken,
             "idToken": token.idToken,
@@ -163,3 +179,4 @@ extension ExpoKlarnaAuthModule {
         }
     }
 }
+

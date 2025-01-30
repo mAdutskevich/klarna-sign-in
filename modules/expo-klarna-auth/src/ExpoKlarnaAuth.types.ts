@@ -14,6 +14,18 @@ export type ExpoKlarnaSignInResponse = {
   params: Record<string, string>;
 };
 
+export enum EEventType {
+  AuthEvent = "AUTH_EVENT",
+  SignInEvent = "SIGNIN_EVENT",
+  ErrorEvent = "ERROR_EVENT",
+  OtherEvent = "OTHER_EVENT",
+}
+
+export enum EEventStatus {
+  Success = 'SUCCESS',
+  Error = 'ERROR'
+}
+
 export enum EKlarnaEnv {
   DEMO = "DEMO",
   PLAYGROUND = "PLAYGROUND",
