@@ -28,11 +28,14 @@
 17-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:8:9-69
 17-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:8:19-67
 18
-19                <data android:scheme="myapp" />
-19-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:9:9-39
-19-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:9:15-37
-20            </intent-filter>
-21        </activity>
-22    </application>
-23
-24</manifest>
+19                <data
+19-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:9:9-60
+20                    android:host="login"
+20-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:9:38-58
+21                    android:scheme="myapp" />
+21-->/Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:9:15-37
+22            </intent-filter>
+23        </activity>
+24    </application>
+25
+26</manifest>

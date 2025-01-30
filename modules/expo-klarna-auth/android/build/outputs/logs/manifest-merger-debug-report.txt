@@ -19,7 +19,7 @@ ADDED from /Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-aut
 		ADDED from /Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:4:92-115
 	android:name
 		ADDED from /Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:4:15-91
-intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:scheme:myapp
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:login+data:scheme:myapp
 ADDED from /Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:5:7-10:23
 action#android.intent.action.VIEW
 ADDED from /Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:6:9-60
@@ -34,7 +34,9 @@ ADDED from /Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-aut
 	android:name
 		ADDED from /Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:8:19-67
 data
-ADDED from /Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:9:9-39
+ADDED from /Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:9:9-60
+	android:host
+		ADDED from /Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:9:38-58
 	android:scheme
 		ADDED from /Users/mike/Documents/Projects/klarna-sign-in/modules/expo-klarna-auth/android/src/main/AndroidManifest.xml:9:15-37
 uses-sdk

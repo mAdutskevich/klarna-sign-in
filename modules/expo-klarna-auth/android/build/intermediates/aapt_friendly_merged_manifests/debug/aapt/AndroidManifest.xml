@@ -16,8 +16,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="myapp" />
+                <data
+                    android:host="login"
+                    android:scheme="myapp" />
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
